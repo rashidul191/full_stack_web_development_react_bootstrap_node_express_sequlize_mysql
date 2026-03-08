@@ -17,17 +17,19 @@ module.exports.index = async (req, res) => {
 module.exports.update = async (req, res, next) => {
   try {
     const data = req.body;
-    console.log(data);
+    // console.log(data);
 
     // file handle
     if (req.files) {
-      req.files.forEach(async (file) => {
+      for (const file of req.files) {
         // data[file.fieldname] = imageHandler.store(file);
         const key = file.fieldname;
         const setting = await BusinessSetting.findOne({ where: { key } });
         const oldPath = setting ? setting.value : null;
+        console.log("oldpath: ", oldPath);
         data[key] = imageHandler.update(oldPath, file);
-      });
+        console.log("datakey: ", data[key]);
+      }
     }
 
     for (const key in data) {

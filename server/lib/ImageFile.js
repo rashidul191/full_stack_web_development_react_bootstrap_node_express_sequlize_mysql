@@ -23,7 +23,6 @@ class ImageFile {
 
   update(oldPath, file) {
     if (!file) return oldPath;
-
     this.delete(oldPath);
     return this.store(file);
   }
