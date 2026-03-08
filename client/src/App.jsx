@@ -63,7 +63,7 @@ function App() {
         <Route path="setting">
           <Route path="general" element={<GeneralSetting />} />
           <Route path="social-links" element={<SocialLinks />} />
-          <Route path="profile" element={<GeneralSetting />} />
+          {/* <Route path="profile" element={<GeneralSetting />} /> */}
         </Route>
       </Route>
 

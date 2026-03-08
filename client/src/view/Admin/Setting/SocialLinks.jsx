@@ -11,7 +11,6 @@ import { createFormData } from "../../../utility/formDataHelper";
 export default function SocialLinks() {
   const [loading, setLoading] = useState(true);
   const [businessSetting, setBusinessSetting] = useState({});
-  console.log(businessSetting);
   const {
     register,
     formState: { errors },
