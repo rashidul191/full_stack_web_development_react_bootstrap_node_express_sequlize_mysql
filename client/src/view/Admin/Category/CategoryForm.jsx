@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import HeaderSection from "../../Components/HeaderSection";
 import { AuthContext } from "../../../context/AuthContext";
@@ -9,16 +9,25 @@ import SubmitBtn from "../../Components/SubmitBtn";
 import LabeledTextarea from "../../Components/LabeledTextarea";
 import useImagePreview from "../../../utility/useImagePreview";
 import { createFormDataWithFile } from "../../../utility/formDataHelper";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { imageUrl } from "../../../utility/imageUrl";
+import Loading from "../../Common/Loading";
 
 export default function CategoryForm() {
   const { previewImage, handleImageChange } = useImagePreview(); // image preview custom hook
+  const [loding, setLoading] = useState(true);
   const navigator = useNavigate();
   const { auth } = useContext(AuthContext);
-  const id = false;
-  console.log(auth);
+  const { id } = useParams();
+
+  const [category, setCategory] = useState(null);
+
+  console.log(auth, id);
+
   const {
     register,
+    // setValue,
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm();
@@ -28,7 +37,12 @@ export default function CategoryForm() {
     data.slug = slug;
     const formData = createFormDataWithFile(data);
     try {
-      const res = await api.post(`/admin/category`, formData);
+      let res;
+      if (id) {
+        res = await api.put(`/admin/category/${id}`, formData);
+      } else {
+        res = await api.post(`/admin/category`, formData);
+      }
       if (res?.data?.status === "success") {
         toast.success(res?.data?.message);
         navigator("/admin/category");
@@ -38,6 +52,31 @@ export default function CategoryForm() {
       toast.error(error.response?.data?.message);
     }
   };
+
+  // Get Single Data
+  useEffect(() => {
+    if (!id) return setLoading(false);
+    getSingleData(id);
+  }, [id]);
+
+  const getSingleData = async (id) => {
+    try {
+      const res = await api.get(`/admin/category/${id}`);
+      if (res?.data?.status === "success") {
+        setCategory(res.data.data);
+        reset(res?.data?.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data?.message);
+    }
+  };
+
+  if (loding) {
+    return <Loading />;
+  }
+
   return (
     <>
       <HeaderSection
@@ -49,11 +88,11 @@ export default function CategoryForm() {
         <form onSubmit={handleSubmit(onSubmit)} className="">
           <div className="w-full flex flex-wrap">
             <div className="w-full p-1">
-              {previewImage.image ? (
-                <img className="w-12 h-12" src={previewImage.image} alt="" />
-              ) : (
-                ""
-              )}
+              <img
+                className="w-12 h-12"
+                src={previewImage.image || imageUrl(category?.image)}
+                alt=""
+              />
 
               <LabeledInput
                 type="file"

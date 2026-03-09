@@ -1,27 +1,23 @@
 // get all data
 module.exports.indexService = async (model) => {
-  const index = await model.findAll({});
-  return index;
+  return await model.findAll({});
 };
 
 // create data
 module.exports.createService = async (model, data) => {
-  const create = await model.create(data);
-  return create;
+  return await model.create(data);
 };
 
 // get single by id
 module.exports.showService = async (model, id) => {
-  const show = await model.findByPk(id);
-  return show;
+  return await model.findByPk(id);
 };
 
 // update single by id
 module.exports.updateService = async (model, id, data) => {
   const record = await model.findByPk(id);
   if (!record) throw new Error("Record not found");
-  const update = await record.update(data);
-  return update;
+  return await record.update(data);
 };
 
 // bulk update multiple records
@@ -30,8 +26,7 @@ module.exports.bulkUpdateService = async (model, dataArray) => {
   const promises = dataArray.map((item) =>
     model.findByPk(item.id).then((record) => record?.update(item.data)),
   );
-  const results = await Promise.all(promises);
-  return results;
+  return await Promise.all(promises);
 };
 
 // delete single by id
@@ -39,9 +34,7 @@ module.exports.deleteService = async (model, id) => {
   const deleted = await model.destroy({
     where: { id },
   });
-  if (!deleted) {
-    throw new Error("Record not found");
-  }
+  if (!deleted) throw new Error("Record not found");
   return deleted;
 };
 
@@ -55,9 +48,7 @@ module.exports.bulkDeleteService = async (model, ids) => {
 // query with filter, pagination, sorting
 module.exports.queryDataService = async (model, filters = {}, queries = {}) => {
   const { page = 1, limit = 10, sortBy = "id", filterBy = null } = queries;
-
   const offset = (page - 1) * limit;
-
   const result = await model.findAll({
     where: filters,
     offset: offset,
@@ -68,6 +59,5 @@ module.exports.queryDataService = async (model, filters = {}, queries = {}) => {
 
   const totalRecords = await model.count({ where: filters });
   const pageCount = Math.ceil(totalRecords / limit);
-
   return { totalRecords, pageCount, result };
 };

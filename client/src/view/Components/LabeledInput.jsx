@@ -57,7 +57,7 @@ const LabeledInput = (props) => {
           <input
             type={finalType}
             id={name}
-            placeholder={placeholder}
+            placeholder={placeholder}          
             className={`w-full border-2 border-gray-600 rounded-md py-1.5 ${type === "password" ? "px-10" : type === "email" ? "pl-10" : type === "file" ? "file-input py-0!" : "px-2"} focus:outline-none focus:ring-2 focus:ring-indigo-500 transition`}
             {...register(name, {
               required: required ? `${finalLabel} is Required` : false,

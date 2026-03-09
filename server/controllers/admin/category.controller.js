@@ -23,7 +23,7 @@ module.exports.create = async (req, res, next) => {
   try {
     const data = req.body;
     data.image = req.file ? imageHandler.store(req.file) : null;
-    const result = await createService(Category, req.body);
+    const result = await createService(Category, data);
     sendSuccess(res, "Successfully create category!", result);
   } catch (error) {
     next();
@@ -34,65 +34,28 @@ module.exports.create = async (req, res, next) => {
 
 module.exports.show = async (req, res) => {
   try {
-    // const data = await Blog.findByPk(req.params.id);
-    const data = await showService(Blog, req.params.id);
-    sendSuccess(res, "Successfully found single data!!", data);
+    const result = await showService(Category, req.params.id);
+    sendSuccess(res, "Successfully found single data!!", result);
   } catch (error) {
     sendError(res, "Can't find data in the database!!", error);
   }
 };
 
-module.exports.update = async (req, res, next) => {
+module.exports.update = async (req, res) => {
   try {
-    const userId = req.params.id;
-    const { username, name, phone, email, password, role } = req.body;
-
-    // 1️⃣ Find existing user
-    const existingUser = await User.findByPk(userId);
-    if (!existingUser) return sendError(res, "User not found!!");
-
-    // 2️⃣ Check if email/username conflict
-    if (email && email !== existingUser.email) {
-      const emailCheck = await User.findOne({ where: { email } });
-      if (emailCheck) return sendError(res, "Email already exists!!");
-    }
-
-    if (username && username !== existingUser.username) {
-      const usernameCheck = await User.findOne({ where: { username } });
-      if (usernameCheck) return sendError(res, "Username already exists!!");
-    }
-
-    // 3️⃣ Prepare update data
-    const updateData = {
-      username: username ?? existingUser.username,
-      name: name ?? existingUser.name,
-      phone: phone ?? existingUser.phone,
-      email: email ?? existingUser.email,
-      role: role ?? existingUser.role,
-    };
-
-    // 4️⃣ Password update (optional)
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      updateData.password = await bcrypt.hash(password, salt);
-    }
-
-    // 5️⃣ Avatar update
+    const id = req.params.id;
+    const data = req.body;
+    const record = await Category.findByPk(id);
+    if (!record) throw new Error("Record not found");
     if (req.file) {
-      // Delete old avatar
-      imageHandler.delete(existingUser.avatar);
-
-      // Store new avatar
-      updateData.avatar = imageHandler.store(req.file);
+      data.image = imageHandler.store(req.file);
+    } else {
+      data.image = record.image;
     }
-
-    // 6️⃣ Update user
-    const updatedUser = await updateService(User, userId, updateData);
-
-    sendSuccess(res, "User updated successfully!!", updatedUser);
+    const result = await updateService(Category, id, data);
+    sendSuccess(res, "Updated successfully!!", result);
   } catch (error) {
-    next();
-    sendError(res, "Can't update user!!", error);
+    sendError(res, "Can't update category!!", error);
   }
 };
 
