@@ -4,7 +4,6 @@ import DataTable from "react-data-table-component";
 export default function TableData({
   columns,
   data,
-  search = true,
   searchKeys = [],
   fixedHeight = "550px",
 }) {
@@ -51,6 +50,7 @@ export default function TableData({
 
   return (
     <>
+      {/* Custom dropdown pagiantion and search input */}
       <div className="flex items-center justify-between mb-2">
         <div>
           <label className="font-semibold" htmlFor="paginationDropdown">
@@ -89,6 +89,7 @@ export default function TableData({
         </div>
       </div>
 
+      {/* Data Table */}
       <DataTable
         key={perPage} // force rerender
         columns={tableColumns}
@@ -109,39 +110,5 @@ export default function TableData({
         }
       />
     </>
-
-    // <DataTable
-    //   columns={tableColumns}
-    //   data={filteredData}
-    //   pagination
-    //   paginationPerPage={perPage}
-    //   onChangePage={(page) => setCurrentPage(page)}
-    //   onChangeRowsPerPage={(newPerPage, page) => {
-    //     setPerPage(newPerPage);
-    //     setCurrentPage(page);
-    //   }}
-    //   fixedHeader
-    //   fixedHeaderScrollHeight={fixedHeight}
-    //   striped
-    //   persistTableHead
-    //   subHeader={search}
-    //   subHeaderComponent={
-    //     search && (
-    //       <input
-    //         type="text"
-    //         placeholder="Search..."
-    //         className="px-3 py-1 text-sm border rounded outline-none focus:ring-2 focus:ring-blue-400"
-    //         value={searchText}
-    //         onChange={(e) => setSearchText(e.target.value)}
-    //       />
-    //     )
-    //   }
-    //   customStyles={customStyles}
-    //   noDataComponent={
-    //     <div className="w-full text-center py-3 bg-red-300">
-    //       No matching records found
-    //     </div>
-    //   }
-    // />
   );
 }

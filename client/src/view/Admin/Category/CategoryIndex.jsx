@@ -7,6 +7,7 @@ import TableData from "../../../lib/TableData";
 import { imageUrl } from "../../../utility/imageUrl";
 import { Eye, PenBoxIcon, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import handleDelete from "../../../utility/handleDelete";
 
 export default function CategoryIndex() {
   const [loding, setLoading] = useState(true);
@@ -60,26 +61,14 @@ export default function CategoryIndex() {
 
           <Trash2
             className="size-5 cursor-pointer transition-all duration-200 hover:scale-110"
-            onClick={() => handleDelete(row.id)}
+            onClick={() =>
+              handleDelete(`admin/category/${row.id}`, setCategories)
+            }
           />
         </div>
       ),
     },
   ];
-
-  const handleDelete = async (id) => {
-    const confirmDelete = await toast.delete();
-    if (!confirmDelete) return;
-    try {
-      const res = await api.delete(`/admin/category/${id}`);
-      if (res?.data?.status === "success") {
-        toast.success(res?.data?.message);
-        setCategories((prev) => prev.filter((item) => item.id !== id));
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message);
-    }
-  };
 
   if (loding) {
     return <Loading />;
