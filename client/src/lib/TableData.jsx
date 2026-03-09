@@ -50,38 +50,98 @@ export default function TableData({
   };
 
   return (
-    <DataTable
-      columns={tableColumns}
-      data={filteredData}
-      pagination
-      paginationPerPage={perPage}
-      onChangePage={(page) => setCurrentPage(page)}
-      onChangeRowsPerPage={(newPerPage, page) => {
-        setPerPage(newPerPage);
-        setCurrentPage(page);
-      }}
-      fixedHeader
-      fixedHeaderScrollHeight={fixedHeight}
-      striped
-      persistTableHead
-      subHeader={search}
-      subHeaderComponent={
-        search && (
+    <>
+      <div className="flex items-center justify-between mb-2">
+        <div>
+          <label className="font-semibold" htmlFor="paginationDropdown">
+            Show
+          </label>
+          <select
+            value={perPage}
+            onChange={(e) => {
+              setPerPage(Number(e.target.value));
+              setCurrentPage(1); // important
+            }}
+            className="border px-2 py-1 text-sm rounded mx-2"
+            id="paginationDropdown"
+          >
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+          </select>
+
+          <span className="font-semibold">entries</span>
+        </div>
+
+        <div>
+          <label className="font-semibold" htmlFor="search">
+            Search:{" "}
+          </label>
           <input
             type="text"
-            placeholder="Search..."
-            className="px-3 py-1 text-sm border rounded outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Search here..."
+            className="px-3 py-1 text-sm border rounded"
+            id="search"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
-        )
-      }
-      customStyles={customStyles}
-      noDataComponent={
-        <div className="w-full text-center py-3 bg-red-300">
-          No matching records found
         </div>
-      }
-    />
+      </div>
+
+      <DataTable
+        key={perPage} // force rerender
+        columns={tableColumns}
+        data={filteredData}
+        pagination
+        paginationPerPage={perPage}
+        onChangePage={(page) => setCurrentPage(page)}
+        fixedHeader
+        fixedHeaderScrollHeight={fixedHeight}
+        striped
+        persistTableHead
+        paginationRowsPerPageOptions={[perPage]}
+        customStyles={customStyles}
+        noDataComponent={
+          <div className="w-full text-center py-3 bg-red-300">
+            No matching records found
+          </div>
+        }
+      />
+    </>
+
+    // <DataTable
+    //   columns={tableColumns}
+    //   data={filteredData}
+    //   pagination
+    //   paginationPerPage={perPage}
+    //   onChangePage={(page) => setCurrentPage(page)}
+    //   onChangeRowsPerPage={(newPerPage, page) => {
+    //     setPerPage(newPerPage);
+    //     setCurrentPage(page);
+    //   }}
+    //   fixedHeader
+    //   fixedHeaderScrollHeight={fixedHeight}
+    //   striped
+    //   persistTableHead
+    //   subHeader={search}
+    //   subHeaderComponent={
+    //     search && (
+    //       <input
+    //         type="text"
+    //         placeholder="Search..."
+    //         className="px-3 py-1 text-sm border rounded outline-none focus:ring-2 focus:ring-blue-400"
+    //         value={searchText}
+    //         onChange={(e) => setSearchText(e.target.value)}
+    //       />
+    //     )
+    //   }
+    //   customStyles={customStyles}
+    //   noDataComponent={
+    //     <div className="w-full text-center py-3 bg-red-300">
+    //       No matching records found
+    //     </div>
+    //   }
+    // />
   );
 }
