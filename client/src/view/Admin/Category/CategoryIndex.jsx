@@ -1,35 +1,19 @@
-import React, { useEffect, useState } from "react";
-import toast from "../../../utility/toast";
-import api from "../../../api/axios";
 import HeaderSection from "../../Components/HeaderSection";
 import Loading from "../../Common/Loading";
 import TableData from "../../../lib/TableData";
 import { imageUrl } from "../../../utility/imageUrl";
 import { Eye, PenBoxIcon, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import handleDelete from "../../../utility/handleDelete";
+import { useApiHook } from "../../../hook/customHook";
 
 export default function CategoryIndex() {
-  const [loding, setLoading] = useState(true);
-  const [categories, setCategories] = useState([]);
+  const {
+    data: categories,
+    loading,
+    deleteData,
+  } = useApiHook("/admin/category");
 
-  const fetchDataFromApi = async () => {
-    try {
-      const res = await api.get(`/admin/category`);
-
-      if (res?.data?.status === "success") {
-        setCategories(res?.data?.data);
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response?.data?.message);
-    }
-  };
-
-  useEffect(() => {
-    fetchDataFromApi();
-  }, []);
+  console.log(categories);
 
   const columns = [
     {
@@ -61,16 +45,14 @@ export default function CategoryIndex() {
 
           <Trash2
             className="size-5 cursor-pointer transition-all duration-200 hover:scale-110"
-            onClick={() =>
-              handleDelete(`admin/category/${row.id}`, setCategories)
-            }
+            onClick={() => deleteData(row.id)}
           />
         </div>
       ),
     },
   ];
 
-  if (loding) {
+  if (loading) {
     return <Loading />;
   }
   return (
@@ -83,7 +65,7 @@ export default function CategoryIndex() {
       <div className="shadow">
         <TableData
           columns={columns}
-          data={categories}
+          data={categories || []}
           searchKeys={["name", "slug"]}
         />
       </div>

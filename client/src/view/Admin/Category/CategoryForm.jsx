@@ -1,79 +1,67 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import HeaderSection from "../../Components/HeaderSection";
 import { AuthContext } from "../../../context/AuthContext";
-import toast from "../../../utility/toast";
-import api from "../../../api/axios";
 import LabeledInput from "../../Components/LabeledInput";
 import SubmitBtn from "../../Components/SubmitBtn";
-import LabeledTextarea from "../../Components/LabeledTextarea";
-import useImagePreview from "../../../utility/useImagePreview";
-import { createFormDataWithFile } from "../../../utility/formDataHelper";
 import { useNavigate, useParams } from "react-router-dom";
 import { imageUrl } from "../../../utility/imageUrl";
 import Loading from "../../Common/Loading";
+import { useApiHook, useImagePreview } from "../../../hook/customHook";
 
 export default function CategoryForm() {
-  const { previewImage, handleImageChange } = useImagePreview(); // image preview custom hook
-  const [loding, setLoading] = useState(true);
+  const { previewImage, handleImageChange } = useImagePreview();
+
   const navigator = useNavigate();
-  const { auth } = useContext(AuthContext);
+  // const { auth } = useContext(AuthContext);
   const { id } = useParams();
 
-  const [category, setCategory] = useState(null);
+  // CRUD
+  const { createData, updateData } = useApiHook("/admin/category");
 
-  console.log(auth, id);
+  // Single data (edit)
+  const { data: category, loading } = useApiHook(
+    id ? `/admin/category/${id}` : null,
+  );
 
   const {
     register,
-    // setValue,
     reset,
     formState: { errors },
     handleSubmit,
   } = useForm();
+
+  // ==========================
+  // Load single data in form
+  // ==========================
+  useEffect(() => {
+    if (category) {
+      reset(category);
+    }
+  }, [category, reset]);
+
+  // ==========================
+  // Submit
+  // ==========================
   const onSubmit = async (data) => {
-    // create slug
     const slug = data.name.toLowerCase().replace(/\s+/g, "-");
     data.slug = slug;
-    const formData = createFormDataWithFile(data);
-    try {
-      let res;
-      if (id) {
-        res = await api.put(`/admin/category/${id}`, formData);
-      } else {
-        res = await api.post(`/admin/category`, formData);
-      }
-      if (res?.data?.status === "success") {
-        toast.success(res?.data?.message);
-        navigator("/admin/category");
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response?.data?.message);
+    let res;
+    if (id) {
+      res = await updateData(id, data, true);
+    } else {
+      res = await createData(data, true);
+    }
+
+    if (res) {
+      navigator("/admin/category");
     }
   };
 
-  // Get Single Data
-  useEffect(() => {
-    if (!id) return setLoading(false);
-    getSingleData(id);
-  }, [id]);
-
-  const getSingleData = async (id) => {
-    try {
-      const res = await api.get(`/admin/category/${id}`);
-      if (res?.data?.status === "success") {
-        setCategory(res.data.data);
-        reset(res?.data?.data);
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response?.data?.message);
-    }
-  };
-
-  if (loding) {
+  // ==========================
+  // Loading
+  // ==========================
+  if (id && loading) {
     return <Loading />;
   }
 
@@ -82,15 +70,16 @@ export default function CategoryForm() {
       <HeaderSection
         title={`Category ${id ? "Edit" : "Create"}`}
         backLink={"/admin/category"}
-      ></HeaderSection>
+      />
 
       <div className="shadow-lg p-4 rounded mt-5">
-        <form onSubmit={handleSubmit(onSubmit)} className="">
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full flex flex-wrap">
+            {/* IMAGE */}
             <div className="w-full p-1">
               <img
-                className="w-12 h-12"
-                src={previewImage.image || imageUrl(category?.image)}
+                className="w-14 h-14 mb-2 object-cover rounded"
+                src={previewImage?.image || imageUrl(category?.image)}
                 alt=""
               />
 
@@ -102,6 +91,8 @@ export default function CategoryForm() {
                 errors={errors}
               />
             </div>
+
+            {/* NAME */}
             <LabeledInput
               name="name"
               className="w-full p-1"
@@ -111,9 +102,8 @@ export default function CategoryForm() {
             />
           </div>
 
-          {/* Forgot + Button */}
-          <div className="flex items-center justify-end text-sm">
-            <SubmitBtn className="" value={`${id ? "Update" : "Publish"}`} />
+          <div className="flex justify-end mt-4">
+            <SubmitBtn value={id ? "Update" : "Publish"} />
           </div>
         </form>
       </div>

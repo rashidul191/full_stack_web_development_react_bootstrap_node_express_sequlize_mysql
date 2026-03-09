@@ -9,7 +9,7 @@ import { imageUrl } from "../../../utility/imageUrl";
 import Loading from "../../Common/Loading";
 import { createFormDataWithFile } from "../../../utility/formDataHelper";
 import HeaderSection from "../../Components/HeaderSection";
-import useImagePreview from "../../../utility/useImagePreview";
+import { useImagePreview } from "../../../hook/customHook";
 
 export default function GeneralSetting() {
   const [loading, setLoading] = useState(true);

@@ -12,7 +12,7 @@ export default function HeaderSection(props) {
       {createLink ? (
         <Link
           to={createLink}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-green-600 border border-green-600 rounded hover:bg-green-700 hover:text-white transition"
+          className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-green-600 border border-green-600 rounded hover:bg-green-700 hover:text-white transition"
         >
           <FiPlus />
           Create
@@ -24,9 +24,9 @@ export default function HeaderSection(props) {
       {backLink ? (
         <Link
           to={backLink}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 border border-red-600 rounded hover:bg-red-700 hover:text-white transition"
+          className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-red-600 border border-red-600 rounded hover:bg-red-700 hover:text-white transition"
         >
-            <ArrowLeft></ArrowLeft>
+          <ArrowLeft></ArrowLeft>
           Back
         </Link>
       ) : (

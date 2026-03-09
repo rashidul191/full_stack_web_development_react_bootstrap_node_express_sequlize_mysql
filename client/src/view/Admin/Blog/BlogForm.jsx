@@ -7,7 +7,7 @@ import api from "../../../api/axios";
 import LabeledInput from "../../Components/LabeledInput";
 import SubmitBtn from "../../Components/SubmitBtn";
 import LabeledTextarea from "../../Components/LabeledTextarea";
-import useImagePreview from "../../../utility/useImagePreview";
+import { useImagePreview } from "../../../hook/customHook";
 
 export default function BlogForm() {
   const { previewImage, handleImageChange } = useImagePreview(); // image preview custom hook
