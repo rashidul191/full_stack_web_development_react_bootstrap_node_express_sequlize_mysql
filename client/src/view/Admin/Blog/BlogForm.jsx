@@ -8,6 +8,7 @@ import LabeledTextarea from "../../Components/LabeledTextarea";
 import { useApiHook, useImagePreview } from "../../../hook/customHook";
 import Loading from "../../layouts/Shared/Loading";
 import { useNavigate, useParams } from "react-router-dom";
+import { imageUrl } from "../../../utility/imageUrl";
 
 export default function BlogForm() {
   const { previewImage, handleImageChange } = useImagePreview();
@@ -46,7 +47,7 @@ export default function BlogForm() {
     // console.log(data);
     const slug = data?.title.toLowerCase().replace(/\s+/g, "-");
     data.slug = slug;
-    
+
     let res;
     if (id) {
       res = await updateData(id, data, true); // true for image
@@ -87,11 +88,11 @@ export default function BlogForm() {
             </div>
             <div className="w-full md:w-2/5 p-2">
               <div>
-                {previewImage.image ? (
-                  <img className="w-12 h-12" src={previewImage.image} alt="" />
-                ) : (
-                  ""
-                )}
+                <img
+                  className="w-14 h-14 mb-2 object-cover rounded"
+                  src={previewImage?.image || imageUrl(blog?.image)}
+                  alt=""
+                />
 
                 <LabeledInput
                   type="file"

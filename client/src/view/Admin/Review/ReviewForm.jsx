@@ -10,7 +10,7 @@ import Loading from "../../layouts/Shared/Loading";
 import { useNavigate, useParams } from "react-router-dom";
 import { imageUrl } from "../../../utility/imageUrl";
 
-export default function SliderForm() {
+export default function ReviewForm() {
   const { previewImage, handleImageChange } = useImagePreview();
 
   const navigator = useNavigate();
@@ -18,11 +18,11 @@ export default function SliderForm() {
   const { id } = useParams();
 
   // CRUD
-  const { createData, updateData } = useApiHook("/admin/slider"); // custom hook
+  const { createData, updateData } = useApiHook("/admin/review"); // custom hook
 
   // Single data (edit)
-  const { data: slider, loading } = useApiHook(
-    id ? `/admin/slider/${id}` : null,
+  const { data: review, loading } = useApiHook(
+    id ? `/admin/review/${id}` : null,
   ); // custom hook
 
   const {
@@ -36,10 +36,10 @@ export default function SliderForm() {
   // Load single data in form
   // ==========================
   useEffect(() => {
-    if (slider) {
-      reset(slider);
+    if (review) {
+      reset(review);
     }
-  }, [slider, reset]);
+  }, [review, reset]);
 
   // ==========================
   // Submit
@@ -53,7 +53,7 @@ export default function SliderForm() {
     }
 
     if (res) {
-      navigator("/admin/slider");
+      navigator("/admin/review");
     }
   };
 
@@ -66,20 +66,19 @@ export default function SliderForm() {
   return (
     <>
       <HeaderSection
-        title={`Slider ${id ? "Edit" : "Create"}`}
-        backLink={"/admin/slider"}
+        title={`Review ${id ? "Edit" : "Create"}`}
+        backLink={"/admin/review"}
       ></HeaderSection>
 
       <div className="shadow-lg p-4 rounded mt-5">
         <form onSubmit={handleSubmit(onSubmit)} className="">
-          <div className="w-full flex flex-wrap">
+          <div className="w-full flex flex-wrap items-end">
             <div className="w-full p-1">
               <img
                 className="w-14 h-14 mb-2 object-cover rounded"
-                src={previewImage?.image || imageUrl(slider?.image)}
+                src={previewImage?.image || imageUrl(review?.image)}
                 alt=""
               />
-
               <LabeledInput
                 type="file"
                 name="image"
@@ -89,25 +88,23 @@ export default function SliderForm() {
                 errors={errors}
               />
             </div>
-
             <LabeledInput
-              name="title"
+              className="w-full md:w-1/2 p-1"
+              name="name"
               required={true}
               register={register}
               errors={errors}
-              className="w-full md:w-1/2 p-1"
             />
             <LabeledInput
-              name="sub_title"
+              className="w-full md:w-1/2 p-1"
+              name="designation"
               register={register}
               errors={errors}
-              className="w-full md:w-1/2 p-1"
             />
 
             <LabeledTextarea
-              name="content"
+              name="review_text"
               register={register}
-              errors={errors}
               className="w-full p-1"
             />
           </div>

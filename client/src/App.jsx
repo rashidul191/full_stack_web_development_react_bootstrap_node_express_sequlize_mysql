@@ -20,6 +20,8 @@ import CategoryIndex from "./view/Admin/Category/CategoryIndex";
 import CategoryForm from "./view/Admin/Category/CategoryForm";
 import SliderIndex from "./view/Admin/Slider/SliderIndex";
 import SliderForm from "./view/Admin/Slider/SliderForm";
+import ReviewIndex from "./view/Admin/Review/ReviewIndex";
+import ReviewForm from "./view/Admin/Review/ReviewForm";
 
 function App() {
   return (
@@ -70,9 +72,9 @@ function App() {
           <Route path="edit/:id" element={<SliderForm />} />
         </Route>
         <Route path="review">
-          <Route path="" element={<BlogIndex />} />
-          <Route path="create" element={<BlogForm />} />
-          <Route path="edit/:id" element={<BlogForm />} />
+          <Route path="" element={<ReviewIndex />} />
+          <Route path="create" element={<ReviewForm />} />
+          <Route path="edit/:id" element={<ReviewForm />} />
         </Route>
 
         <Route path="blog">
