@@ -5,6 +5,7 @@ import {
   createFormData,
   createFormDataWithFile,
 } from "../utility/formDataHelper";
+import Swal from "sweetalert2";
 
 export const useImagePreview = () => {
   const [previewImage, setPreviewImage] = useState({});
@@ -92,12 +93,13 @@ export const useApiHook = (url = null) => {
   // =========================
   const deleteData = async (id, customUrl = url) => {
     try {
+      const confirmed = await toast.delete();
+
+      if (!confirmed) return;
       const res = await api.delete(`${customUrl}/${id}`);
 
       if (res?.data?.status === "success") {
         toast.success(res.data.message);
-
-        // optional optimistic update
         setData((prev) =>
           Array.isArray(prev) ? prev.filter((item) => item.id !== id) : prev,
         );
