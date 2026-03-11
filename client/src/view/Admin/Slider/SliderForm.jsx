@@ -9,7 +9,7 @@ import { useApiHook, useImagePreview } from "../../../hook/customHook";
 import Loading from "../../layouts/Shared/Loading";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function BlogForm() {
+export default function SliderForm() {
   const { previewImage, handleImageChange } = useImagePreview();
 
   const navigator = useNavigate();
@@ -17,11 +17,12 @@ export default function BlogForm() {
   const { id } = useParams();
 
   // CRUD
-  const { data: categories } = useApiHook("/admin/category");
-  const { createData, updateData } = useApiHook("/admin/blog"); // custom hook
+  const { createData, updateData } = useApiHook("/admin/slider"); // custom hook
 
   // Single data (edit)
-  const { data: blog, loading } = useApiHook(id ? `/admin/blog/${id}` : null); // custom hook
+  const { data: slider, loading } = useApiHook(
+    id ? `/admin/slider/${id}` : null,
+  ); // custom hook
 
   const {
     register,
@@ -34,19 +35,16 @@ export default function BlogForm() {
   // Load single data in form
   // ==========================
   useEffect(() => {
-    if (blog) {
-      reset(blog);
+    if (slider) {
+      reset(slider);
     }
-  }, [blog, reset]);
+  }, [slider, reset]);
 
   // ==========================
   // Submit
   // ==========================
   const onSubmit = async (data) => {
-    // console.log(data);
-    const slug = data?.title.toLowerCase().replace(/\s+/g, "-");
-    data.slug = slug;
-    
+ 
     let res;
     if (id) {
       res = await updateData(id, data, true); // true for image
@@ -55,7 +53,7 @@ export default function BlogForm() {
     }
 
     if (res) {
-      navigator("/admin/blog");
+      navigator("/admin/slider");
     }
   };
 
@@ -68,63 +66,50 @@ export default function BlogForm() {
   return (
     <>
       <HeaderSection
-        title={`Blog ${id ? "Edit" : "Create"}`}
-        backLink={"/admin/blog"}
+        title={`Slider ${id ? "Edit" : "Create"}`}
+        backLink={"/admin/slider"}
       ></HeaderSection>
 
       <div className="shadow-lg p-4 rounded mt-5">
         <form onSubmit={handleSubmit(onSubmit)} className="">
           <div className="w-full flex flex-wrap">
-            <div className="w-full md:w-3/5 p-2">
+            <div className="w-full p-1">
+              {previewImage.image ? (
+                <img className="w-12 h-12" src={previewImage.image} alt="" />
+              ) : (
+                ""
+              )}
+
               <LabeledInput
-                name="title"
-                required={true}
+                type="file"
+                name="image"
+                onChange={handleImageChange}
+                required={!id}
                 register={register}
                 errors={errors}
               />
-
-              <LabeledTextarea name="description" register={register} />
             </div>
-            <div className="w-full md:w-2/5 p-2">
-              <div>
-                {previewImage.image ? (
-                  <img className="w-12 h-12" src={previewImage.image} alt="" />
-                ) : (
-                  ""
-                )}
 
-                <LabeledInput
-                  type="file"
-                  name="image"
-                  onChange={handleImageChange}
-                  required={!id}
-                  register={register}
-                  errors={errors}
-                />
-              </div>
+            <LabeledInput
+              name="title"
+              required={true}
+              register={register}
+              errors={errors}
+              className="w-full md:w-1/2 p-1"
+            />
+            <LabeledInput
+              name="sub_title"
+              register={register}
+              errors={errors}
+              className="w-full md:w-1/2 p-1"
+            />
 
-              <div>
-                <label htmlFor="category_id">Select Category</label>
-                <select
-                  {...register("category_id")}
-                  className="select select-bordered w-full"
-                  defaultValue=""
-                  id="category_id"
-                >
-                  <option value="" disabled>
-                    Select Category
-                  </option>
-
-                  {categories?.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <LabeledTextarea name="short_description" register={register} />
-            </div>
+            <LabeledTextarea
+              name="content"
+              register={register}
+              errors={errors}
+              className="w-full p-1"
+            />
           </div>
 
           {/* Forgot + Button */}

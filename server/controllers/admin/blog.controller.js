@@ -33,6 +33,7 @@ module.exports.create = async (req, res, next) => {
     const data = req.body;
     data.image = req.file ? imageHandler.store(req.file) : null; // image manage
     const result = await createService(Blog, data);
+    console.log(result);
     sendSuccess(res, "Successfully create Blog!", result);
   } catch (error) {
     next();

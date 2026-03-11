@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import { useApiHook } from "../../../hook/customHook";
 import Loading from "../../layouts/Shared/Loading";
 
-export default function BlogIndex() {
-  const { data: blogs, loading, deleteData } = useApiHook("/admin/blog");
+export default function SliderIndex() {
+  const { data: slider, loading, deleteData } = useApiHook("/admin/slider");
   const columns = [
     {
       name: "Image",
@@ -21,12 +21,8 @@ export default function BlogIndex() {
       sortable: true,
     },
     {
-      name: "Slug",
-      selector: (row) => row.slug,
-    },
-    {
-      name: "Category",
-      selector: (row) => row.category?.name ?? '--',
+      name: "Sub Title",
+      selector: (row) => row.sub_title,
     },
     {
       name: "Action",
@@ -55,15 +51,15 @@ export default function BlogIndex() {
   return (
     <>
       <HeaderSection
-        title={"Blog List"}
-        createLink={"/admin/blog/create"}
+        title={"Slider List"}
+        createLink={"create"}
       ></HeaderSection>
 
       <div className="shadow">
         <TableData
           columns={columns}
-          data={blogs || []}
-          searchKeys={["name", "slug"]}
+          data={slider || []}
+          searchKeys={["title", "sub_title"]}
         />
       </div>
     </>

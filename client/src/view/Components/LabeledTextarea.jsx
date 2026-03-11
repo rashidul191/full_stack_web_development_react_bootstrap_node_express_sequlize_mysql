@@ -19,7 +19,7 @@ const LabeledTextarea = ({
   const finalLabel = label ?? nameText;
 
   return (
-    <div className="mb-2">
+    <div className={`mb-2 ${className}`}>
       {/* Label */}
       <label htmlFor={name} className="label">
         <span className="label-text text-gray-800 font-semibold">
@@ -32,7 +32,7 @@ const LabeledTextarea = ({
 
       <textarea
         rows={3}
-        className={`border-2 border-gray-500 p-1.5 rounded-md w-full ${className}`}
+        className={`border-2 border-gray-500 p-1.5 rounded-md w-full `}
         placeholder={placeholder}
         {...register(name, {
           required: required ? `${finalLabel} is Required` : false,

@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 import toast from "../utility/toast";
-import { createFormDataWithFile } from "../utility/formDataHelper";
+import {
+  createFormData,
+  createFormDataWithFile,
+} from "../utility/formDataHelper";
 
 export const useImagePreview = () => {
   const [previewImage, setPreviewImage] = useState({});
@@ -49,7 +52,9 @@ export const useApiHook = (url = null) => {
   // =========================
   const createData = async (payload, hasFile = false, customUrl = url) => {
     try {
-      const body = hasFile ? createFormDataWithFile(payload) : payload;
+      const body = hasFile
+        ? createFormDataWithFile(payload) // json data with image
+        : createFormData(payload); // only json data
 
       const res = await api.post(customUrl, body);
 
@@ -67,7 +72,9 @@ export const useApiHook = (url = null) => {
   // =========================
   const updateData = async (id, payload, hasFile = false, customUrl = url) => {
     try {
-      const body = hasFile ? createFormDataWithFile(payload) : payload;
+      const body = hasFile
+        ? createFormDataWithFile(payload) // json data with image
+        : createFormData(payload); // only json data
 
       const res = await api.put(`${customUrl}/${id}`, body);
 

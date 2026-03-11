@@ -11,9 +11,22 @@ export const createFormDataWithFile = (data) => {
     } else if (Array.isArray(value)) {
       value.forEach((item) => formData.append(`${key}[]`, item));
     } else {
-      formData.append(key, value ?? "");
+      // empty string avoid
+      if (value !== "" && value !== undefined && value !== null) {
+        formData.append(key, value);
+      }
     }
   });
 
   return formData;
+};
+
+// empty string → null convert
+export const createFormData = (data) => {
+  Object.fromEntries(
+    Object.entries(data).map(([key, value]) => [
+      key,
+      value === "" ? null : value,
+    ]),
+  );
 };

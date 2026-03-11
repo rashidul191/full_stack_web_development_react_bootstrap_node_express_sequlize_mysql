@@ -43,6 +43,7 @@ const AdminLayout = () => {
             className="drawer-overlay"
           ></label>
           <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
+           <ApplicationLogo className={"h-24"}></ApplicationLogo>
             {/* Sidebar content here */}
             <AdminSideBar></AdminSideBar>
           </div>

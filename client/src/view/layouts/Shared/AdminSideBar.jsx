@@ -17,6 +17,20 @@ const AdminSidebar = () => {
       icon: MdDashboard,
     },
     {
+      title: "Home",
+      icon: MdSettings,
+      children: [
+        {
+          title: "Slider",
+          path: "/admin/slider",
+        },
+        {
+          title: "Review",
+          path: "/admin/review",
+        },
+      ],
+    },
+    {
       title: "Blog",
       icon: MdSettings,
       children: [

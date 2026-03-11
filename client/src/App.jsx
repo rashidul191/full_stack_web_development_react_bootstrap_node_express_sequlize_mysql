@@ -18,6 +18,8 @@ import BlogIndex from "./view/Admin/Blog/BlogIndex";
 import BlogForm from "./view/Admin/Blog/BlogForm";
 import CategoryIndex from "./view/Admin/Category/CategoryIndex";
 import CategoryForm from "./view/Admin/Category/CategoryForm";
+import SliderIndex from "./view/Admin/Slider/SliderIndex";
+import SliderForm from "./view/Admin/Slider/SliderForm";
 
 function App() {
   return (
@@ -61,6 +63,18 @@ function App() {
         }
       >
         <Route path="dashboard" element={<h1>Admin Dashboard</h1>} />
+
+        <Route path="slider">
+          <Route path="" element={<SliderIndex />} />
+          <Route path="create" element={<SliderForm />} />
+          <Route path="edit/:id" element={<SliderForm />} />
+        </Route>
+        <Route path="review">
+          <Route path="" element={<BlogIndex />} />
+          <Route path="create" element={<BlogForm />} />
+          <Route path="edit/:id" element={<BlogForm />} />
+        </Route>
+
         <Route path="blog">
           <Route path="" element={<BlogIndex />} />
           <Route path="create" element={<BlogForm />} />
