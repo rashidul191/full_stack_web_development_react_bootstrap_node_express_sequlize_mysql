@@ -1,4 +1,4 @@
-const { Blog } = require("../../models/index.js");
+const { Blog, Category } = require("../../models/index.js");
 const { sendSuccess, sendError } = require("../../utility/response.handle.js");
 const ImageFile = require("../../lib/ImageFile.js");
 const imageHandler = new ImageFile("blogs");
@@ -12,8 +12,17 @@ const {
 
 module.exports.index = async (req, res) => {
   try {
-    const result = await indexService(Blog);
-  
+    const result = await indexService(Blog, {
+      include: [
+        {
+          model: Category,
+          attributes: ["id", "name"],
+          as: "category",
+        },
+      ],
+    });
+    console.log(result);
+
     sendSuccess(res, "Find all data successful", result);
   } catch (error) {
     sendError(res, "Can't find data in the database!!", error);
@@ -23,7 +32,7 @@ module.exports.index = async (req, res) => {
 module.exports.create = async (req, res, next) => {
   try {
     const data = req.body;
-    data.image = req.file ? imageHandler.store(req.file) : null;
+    data.image = req.file ? imageHandler.store(req.file) : null; // image manage
     const result = await createService(Blog, data);
     sendSuccess(res, "Successfully create Blog!", result);
   } catch (error) {
@@ -35,7 +44,16 @@ module.exports.create = async (req, res, next) => {
 
 module.exports.show = async (req, res) => {
   try {
-    const result = await showService(Blog, req.params.id);
+    let id = req.params.id;
+    const result = await showService(Blog, id, {
+      include: [
+        {
+          model: Category,
+          attributes: ["id", "name"],
+          as: "category",
+        },
+      ],
+    });
     sendSuccess(res, "Successfully found single data!!", result);
   } catch (error) {
     sendError(res, "Can't find data in the database!!", error);

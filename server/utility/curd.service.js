@@ -1,6 +1,6 @@
 // get all data
-module.exports.indexService = async (model) => {
-  return await model.findAll({});
+module.exports.indexService = async (model, option = {}) => {
+  return await model.findAll(option);
 };
 
 // create data
@@ -9,8 +9,8 @@ module.exports.createService = async (model, data) => {
 };
 
 // get single by id
-module.exports.showService = async (model, id) => {
-  return await model.findByPk(id);
+module.exports.showService = async (model, id, options = {}) => {
+  return await model.findByPk(id, options);
 };
 
 // update single by id

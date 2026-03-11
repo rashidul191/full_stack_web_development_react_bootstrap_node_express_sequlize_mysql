@@ -44,13 +44,13 @@ export default function CategoryForm() {
   // Submit
   // ==========================
   const onSubmit = async (data) => {
-    const slug = data.name.toLowerCase().replace(/\s+/g, "-");
+    const slug = data?.name.toLowerCase().replace(/\s+/g, "-");
     data.slug = slug;
     let res;
     if (id) {
-      res = await updateData(id, data, true);
+      res = await updateData(id, data, true); // true for image
     } else {
-      res = await createData(data, true);
+      res = await createData(data, true); // true for image
     }
 
     if (res) {

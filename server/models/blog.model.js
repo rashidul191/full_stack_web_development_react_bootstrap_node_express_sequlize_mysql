@@ -24,10 +24,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       slug: {
-        type: DataTypes.STRING,
-     
+        type: DataTypes.STRING,     
         unique: true,
       },
+      image: DataTypes.STRING,
       short_description: DataTypes.TEXT,
       description: DataTypes.TEXT,
     },

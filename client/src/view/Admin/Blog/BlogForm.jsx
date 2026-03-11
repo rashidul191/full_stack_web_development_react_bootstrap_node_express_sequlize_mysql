@@ -1,37 +1,68 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import HeaderSection from "../../Components/HeaderSection";
 import { AuthContext } from "../../../context/AuthContext";
-import toast from "../../../utility/toast";
-import api from "../../../api/axios";
 import LabeledInput from "../../Components/LabeledInput";
 import SubmitBtn from "../../Components/SubmitBtn";
 import LabeledTextarea from "../../Components/LabeledTextarea";
-import { useImagePreview } from "../../../hook/customHook";
+import { useApiHook, useImagePreview } from "../../../hook/customHook";
+import Loading from "../../layouts/Shared/Loading";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function BlogForm() {
-  const { previewImage, handleImageChange } = useImagePreview(); // image preview custom hook
-  const { auth } = useContext(AuthContext);
-  const id = false;
-  console.log(auth);
+  const { previewImage, handleImageChange } = useImagePreview();
+
+  const navigator = useNavigate();
+  // const { auth } = useContext(AuthContext);
+  const { id } = useParams();
+
+  // CRUD
+  const { data: categories } = useApiHook("/admin/category");
+  const { createData, updateData } = useApiHook("/admin/blog"); // custom hook
+
+  // Single data (edit)
+  const { data: blog, loading } = useApiHook(id ? `/admin/blog/${id}` : null); // custom hook
+
   const {
     register,
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm();
+
+  // ==========================
+  // Load single data in form
+  // ==========================
+  useEffect(() => {
+    if (blog) {
+      reset(blog);
+    }
+  }, [blog, reset]);
+
+  // ==========================
+  // Submit
+  // ==========================
   const onSubmit = async (data) => {
-    console.log(data);
-    try {
-      const res = await api.post(`/admin/blog`, data);
-      if (res?.data?.status === "success") {
-        console.log(res?.data?.data);
-        toast.success(res?.data?.message);
-        navigator("/admin/blog");
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message);
+    const slug = data?.title.toLowerCase().replace(/\s+/g, "-");
+    data.slug = slug;
+    let res;
+    if (id) {
+      res = await updateData(id, data, true); // true for image
+    } else {
+      res = await createData(data, true); // true for image
+    }
+
+    if (res) {
+      navigator("/admin/blog");
     }
   };
+
+  // ==========================
+  // Loading
+  // ==========================
+  if (id && loading) {
+    return <Loading />;
+  }
   return (
     <>
       <HeaderSection
@@ -64,10 +95,30 @@ export default function BlogForm() {
                   type="file"
                   name="image"
                   onChange={handleImageChange}
-                  required={true}
+                  required={!id}
                   register={register}
                   errors={errors}
                 />
+              </div>
+
+              <div>
+                <label htmlFor="category_id">Select Category</label>
+                <select
+                  {...register("category_id")}
+                  className="select select-bordered w-full"
+                  defaultValue=""
+                  id="category_id"
+                >
+                  <option value="" disabled>
+                    Select Category
+                  </option>
+
+                  {categories?.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <LabeledTextarea name="short_description" register={register} />
