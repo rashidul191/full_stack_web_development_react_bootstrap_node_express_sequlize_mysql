@@ -21,7 +21,6 @@ module.exports.index = async (req, res) => {
         },
       ],
     });
-    console.log(result);
 
     sendSuccess(res, "Find all data successful", result);
   } catch (error) {
