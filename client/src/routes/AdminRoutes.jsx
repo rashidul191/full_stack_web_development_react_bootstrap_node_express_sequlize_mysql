@@ -21,6 +21,7 @@ import GeneralSetting from "../view/Admin/Setting/GeneralSetting";
 import SocialLinks from "../view/Admin/Setting/SocialLinks";
 import TeamIndex from "../view/Admin/Team/TeamIndex";
 import TeamForm from "../view/Admin/Team/TeamForm";
+import ContactMessageIndex from "../view/Admin/ContactMessage/ContactMessageIndex";
 
 export const AdminRoutes = (
   <>
@@ -77,6 +78,11 @@ export const AdminRoutes = (
         <Route path="" element={<CategoryIndex />} />
         <Route path="create" element={<CategoryForm />} />
         <Route path="edit/:id" element={<CategoryForm />} />
+      </Route>
+
+      <Route path="contact-message">
+        <Route path="" element={<ContactMessageIndex />} />    
+        <Route path="show/:id" element={<CategoryForm />} />
       </Route>
 
       <Route path="setting">

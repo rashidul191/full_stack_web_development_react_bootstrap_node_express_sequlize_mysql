@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { MdDashboard, MdSettings } from "react-icons/md";
+import { Globe2, Home, MessageCircleMore } from "lucide-react";
 
 const navClass = ({ isActive }) =>
   `flex items-center gap-2 hover:bg-gray-600 hover:text-white ${
@@ -16,6 +17,7 @@ const AdminSidebar = () => {
       path: "/admin/dashboard",
       icon: MdDashboard,
     },
+
     {
       title: "Menu Manage",
       icon: MdSettings,
@@ -32,7 +34,7 @@ const AdminSidebar = () => {
     },
     {
       title: "Home",
-      icon: MdSettings,
+      icon: Home,
       children: [
         {
           title: "Slider",
@@ -50,7 +52,7 @@ const AdminSidebar = () => {
     },
     {
       title: "Blog",
-      icon: MdSettings,
+      icon: Globe2,
       children: [
         {
           title: "Blog List",
@@ -61,6 +63,11 @@ const AdminSidebar = () => {
           path: "/admin/category",
         },
       ],
+    },
+    {
+      title: "Contact Message",
+      path: "/admin/contact-message",
+      icon: MessageCircleMore,
     },
     {
       title: "Settings",

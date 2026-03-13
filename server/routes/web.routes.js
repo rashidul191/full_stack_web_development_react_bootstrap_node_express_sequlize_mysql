@@ -17,4 +17,6 @@ router.use("/category", require("./web/category.route"));
 
 router.use("/team", require("./web/team.route"));
 
+router.use("/contact-message", require("./web/contact-message.route"));
+
 module.exports = router;
