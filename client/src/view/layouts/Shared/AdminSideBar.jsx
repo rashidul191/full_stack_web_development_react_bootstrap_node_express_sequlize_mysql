@@ -52,6 +52,10 @@ const AdminSidebar = () => {
           title: "Client Brand",
           path: "/admin/client-brand",
         },
+        {
+          title: "FAQ List",
+          path: "/admin/faq",
+        },
       ],
     },
     {

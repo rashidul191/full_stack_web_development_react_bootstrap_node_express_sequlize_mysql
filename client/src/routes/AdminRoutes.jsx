@@ -25,6 +25,8 @@ import ContactMessageIndex from "../view/Admin/ContactMessage/ContactMessageInde
 import ContactMessageShow from "../view/Admin/ContactMessage/ContactMessageShow";
 import ClientBrandIndex from "../view/Admin/ClientBrand/ClientBrandIndex";
 import ClientBrandForm from "../view/Admin/ClientBrand/ClientBrandForm";
+import FAQIndex from "../view/Admin/FAQ/FAQIndex";
+import FAQForm from "../view/Admin/FAQ/FAQForm";
 
 export const AdminRoutes = (
   <>
@@ -36,7 +38,7 @@ export const AdminRoutes = (
       path="/admin"
       element={
         // <PrivateRoute role={ROLES.Admin}>
-          <AdminLayout />
+        <AdminLayout />
         // </PrivateRoute>
       }
     >
@@ -89,8 +91,14 @@ export const AdminRoutes = (
         <Route path="edit/:id" element={<ClientBrandForm />} />
       </Route>
 
+      <Route path="faq">
+        <Route path="" element={<FAQIndex />} />
+        <Route path="create" element={<FAQForm />} />
+        <Route path="edit/:id" element={<FAQForm />} />
+      </Route>
+
       <Route path="contact-message">
-        <Route path="" element={<ContactMessageIndex />} />    
+        <Route path="" element={<ContactMessageIndex />} />
         <Route path="show/:id" element={<ContactMessageShow />} />
       </Route>
 

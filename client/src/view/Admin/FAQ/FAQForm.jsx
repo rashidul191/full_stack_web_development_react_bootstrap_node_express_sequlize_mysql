@@ -5,24 +5,21 @@ import { AuthContext } from "../../../context/AuthContext";
 import LabeledInput from "../../Components/LabeledInput";
 import SubmitBtn from "../../Components/SubmitBtn";
 import { useNavigate, useParams } from "react-router-dom";
-import { imageUrl } from "../../../utility/imageUrl";
-import { useApiHook, useImagePreview } from "../../../hook/customHook";
+import { useApiHook } from "../../../hook/customHook";
 import Loading from "../../layouts/Shared/Loading";
+import LabeledTextarea from "../../Components/LabeledTextarea";
 
-export default function ClientBrandForm() {
-  const { previewImage, handleImageChange } = useImagePreview();
+export default function FAQForm() {
 
   const navigator = useNavigate();
   // const { auth } = useContext(AuthContext);
   const { id } = useParams();
 
   // CRUD
-  const { createData, updateData } = useApiHook("/admin/client-brand");
+  const { createData, updateData } = useApiHook("/admin/faq");
 
   // Single data (edit)
-  const { data: clientBrand, loading } = useApiHook(
-    id ? `/admin/client-brand/${id}` : null,
-  );
+  const { data: faq, loading } = useApiHook(id ? `/admin/faq/${id}` : null);
 
   const {
     register,
@@ -35,10 +32,10 @@ export default function ClientBrandForm() {
   // Load single data in form
   // ==========================
   useEffect(() => {
-    if (clientBrand) {
-      reset(clientBrand);
+    if (faq) {
+      reset(faq);
     }
-  }, [clientBrand, reset]);
+  }, [faq, reset]);
 
   // ==========================
   // Submit
@@ -46,13 +43,13 @@ export default function ClientBrandForm() {
   const onSubmit = async (data) => {
     let res;
     if (id) {
-      res = await updateData(id, data, true); // true for image
+      res = await updateData(id, data);
     } else {
-      res = await createData(data, true); // true for image
+      res = await createData(data);
     }
 
     if (res) {
-      navigator("/admin/client-brand");
+      navigator("/admin/faq");
     }
   };
 
@@ -66,39 +63,26 @@ export default function ClientBrandForm() {
   return (
     <>
       <HeaderSection
-        title={`Client Brand ${id ? "Edit" : "Create"}`}
-        backLink={"/admin/client-brand"}
+        title={`FAQ ${id ? "Edit" : "Create"}`}
+        backLink={"/admin/faq"}
       />
 
       <div className="shadow-lg p-4 rounded mt-5">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full flex flex-wrap">
-            {/* IMAGE */}
-            <div className="w-full p-1">
-              <img
-                className="w-14 h-14 mb-2 object-cover rounded"
-                src={previewImage?.image || imageUrl(clientBrand?.image)}
-                alt=""
-              />
-
-              <LabeledInput
-                type="file"
-                name="image"
-                onChange={handleImageChange}
-                register={register}
-                required={!id}
-                errors={errors}
-              />
-            </div>
             <LabeledInput
-              name="name"
-              className="w-full md:w-1/2 p-1"
+              name="question"
+              className="w-full p-1"
               register={register}
+              required={true}
               errors={errors}
             />
-            <LabeledInput
-              name="link"
-              className="w-full md:w-1/2 p-1"
+
+            <LabeledTextarea
+              label={"Answer"}
+              name="answer"
+              className="w-full p-1"
+              required={true}
               register={register}
               errors={errors}
             />

@@ -20,4 +20,6 @@ router.use("/team", require("./web/team.route"));
 router.use("/client-brand", require("./web/client-brand.route"));
 router.use("/contact-message", require("./web/contact-message.route"));
 
+router.use("/faq", require("./web/faq.route"));
+
 module.exports = router;
