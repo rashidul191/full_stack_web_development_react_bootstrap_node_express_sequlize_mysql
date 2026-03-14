@@ -25,6 +25,8 @@ router.use("/contact-message", require("./admin/contact-message.route"));
 
 router.use("/faq", require("./admin/faq.route"));
 
+router.use("/service", require("./admin/service.route"));
+
 
 
 router.use("/business-setting", require("./admin/business.route"));
