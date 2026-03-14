@@ -1,43 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import api from "../../../api/axios";
 import toast from "../../../utility/toast";
 import LabeledInput from "../../Components/LabeledInput";
 import SubmitBtn from "../../Components/SubmitBtn";
-import { getBusinessSettings } from "../../../utility/businessSetting";
 import { imageUrl } from "../../../utility/imageUrl";
 import { createFormDataWithFile } from "../../../utility/formDataHelper";
 import HeaderSection from "../../Components/HeaderSection";
 import { useImagePreview } from "../../../hook/customHook";
 import Loading from "../../layouts/Shared/Loading";
+import { useBusinessSettings } from "../../../utility/businessSetting";
+import LabeledTextarea from "../../Components/LabeledTextarea";
 
 export default function GeneralSetting() {
-  const [loading, setLoading] = useState(true);
   const { previewImage, handleImageChange } = useImagePreview(); // image preview custom hook
-  const [businessSetting, setBusinessSetting] = useState({});
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset, // react-hook-form reset
   } = useForm();
+  const { businessSetting, loading } = useBusinessSettings();
 
   useEffect(() => {
-    const fetchSettings = async () => {
-      setLoading(true);
-      const settings = await getBusinessSettings();
-      setBusinessSetting(settings);
-      reset(settings); // form field এ value সেট করা
-      setLoading(false);
-    };
-    fetchSettings();
-  }, []);
+    if (businessSetting) {
+      reset(businessSetting);
+    }
+  }, [businessSetting, reset]);
+
   const onSubmit = async (data) => {
     const formData = createFormDataWithFile(data); // helper function with image manage
     try {
       const res = await api.post(`/admin/business-setting`, formData);
       if (res?.data?.status === "success") {
-        // setBusinessSetting(res?.data?.data);
+        // setbusiness(res?.data?.data);
         toast.success(res.data.message);
       }
     } catch (error) {
@@ -131,6 +127,14 @@ export default function GeneralSetting() {
               className="w-full md:w-1/2 p-1"
               name="copyright_text"
               value={businessSetting?.copyright_text}
+              register={register}
+              errors={errors}
+            />
+            <LabeledTextarea
+              className="w-full p-1"
+              label={'Google Map Code'}
+              name="google_map"
+              value={businessSetting?.google_map}
               register={register}
               errors={errors}
             />

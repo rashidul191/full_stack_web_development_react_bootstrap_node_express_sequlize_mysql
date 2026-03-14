@@ -4,11 +4,11 @@ import { useApiHook } from "../../../hook/customHook";
 import Loading from "../../layouts/Shared/Loading";
 
 export default function ContactMessageShow() {
+  
   const { id } = useParams();
   const {
     data: message,
     loading,
-    deleteData,
   } = useApiHook(`/admin/contact-message/${id}`);
 
   if (loading) {

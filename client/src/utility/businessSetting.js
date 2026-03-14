@@ -1,4 +1,4 @@
-// utility/settings.js
+import { useEffect, useState } from "react";
 import api from "../api/axios";
 
 /**
@@ -7,23 +7,43 @@ import api from "../api/axios";
  */
 export const getBusinessSettings = async () => {
   try {
-    const res = await api.get("/admin/business-setting"); // backend route
+    const res = await api.get("/admin/business-setting");
+
     if (res.data?.status === "success") {
-      // backend থেকে array আসছে [{key, value}, ...]
       const dataArray = res?.data?.data || [];
 
-      // convert array -> object { key: value }
       const settingsObj = {};
+
       dataArray.forEach((item) => {
         settingsObj[item.key] = item.value;
       });
 
-    //   console.log("Mapped business settings: ", settingsObj);
-      return settingsObj; // এখন key-value format
+      return settingsObj;
     }
+
     return {};
   } catch (error) {
     console.log("Failed to fetch business settings", error);
     return {};
   }
+};
+
+/**
+ * Custom Hook for business settings
+ */
+export const useBusinessSettings = () => {
+  const [businessSetting, setBusinessSetting] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const data = await getBusinessSettings();
+      setBusinessSetting(data);
+      setLoading(false);
+    };
+
+    fetchSettings();
+  }, []);
+
+  return { businessSetting, loading };
 };

@@ -6,7 +6,7 @@ import BlogDetails from "../view/FrontEnd/Pages/BlogDetails";
 import FrontendLayout from "../view/layouts/FrontEndLayout";
 import TopMenuContent from "../view/FrontEnd/Pages/TopMenuContent";
 import SubMenuContent from "../view/FrontEnd/Pages/SubMenuContent";
-import Contact from "../view/FrontEnd/pages/Contact";
+import Contact from "../view/FrontEnd/pages/ContactPage";
 
 export const FrontendRoutes = (
   <>

@@ -1,8 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useApiHook } from "../../../hook/customHook";
+import { useBusinessSettings } from "../../../utility/businessSetting";
+import { Home, Mail, Phone } from "lucide-react";
+import HtmlContent from "../../Components/HtmlContent";
 
 export default function Contact() {
+  const { businessSetting } = useBusinessSettings();
+  console.log(businessSetting.google_map);
   const { createData } = useApiHook("/contact-message");
 
   const {
@@ -21,20 +26,8 @@ export default function Contact() {
     <section className="contact-section">
       <div className="container">
         {/* Map */}
-
         <div className="d-none d-sm-block mb-5 pb-4">
-          <iframe
-            id="map"
-            style={{
-              height: "480px",
-              width: "100%",
-              border: 0,
-              filter: "grayscale(50%)",
-            }}
-            src="https://www.openstreetmap.org/export/embed.html?bbox=149.5%2C-32%2C152%2C-30.4&amp;layer=mapnik"
-            loading="lazy"
-            title="Location Map"
-          ></iframe>
+          <HtmlContent content={businessSetting?.google_map}></HtmlContent>
         </div>
 
         <div className="row">
@@ -150,31 +143,28 @@ export default function Contact() {
           <div className="col-lg-3 offset-lg-1">
             <div className="media contact-info">
               <span className="contact-info__icon">
-                <i className="ti-home"></i>
+                <Home></Home>
               </span>
               <div className="media-body">
-                <h3>Buttonwood, California.</h3>
-                <p>Rosemead, CA 91770</p>
+                <h3>{businessSetting?.address}</h3>
               </div>
             </div>
 
             <div className="media contact-info">
               <span className="contact-info__icon">
-                <i className="ti-tablet"></i>
+                <Phone></Phone>
               </span>
               <div className="media-body">
-                <h3>+1 253 565 2365</h3>
-                <p>Mon to Fri 9am to 6pm</p>
+                <h3>{businessSetting?.phone}</h3>
               </div>
             </div>
 
             <div className="media contact-info">
               <span className="contact-info__icon">
-                <i className="ti-email"></i>
+                <Mail></Mail>
               </span>
               <div className="media-body">
-                <h3>support@colorlib.com</h3>
-                <p>Send us your query anytime!</p>
+                <h3>{businessSetting?.email}</h3>
               </div>
             </div>
           </div>
