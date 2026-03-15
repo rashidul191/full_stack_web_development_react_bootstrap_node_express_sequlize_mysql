@@ -21,9 +21,7 @@ const FrontendLayout = () => {
     "/glightbox.min.css",
     "/aos.css",
   ];
-  for (const value of cssAssets) {
-    useCss(`front-end/assets/css${value}`);
-  }
+  cssAssets?.map((value) => useCss(`/front-end/assets/css${value}`));
 
   let jsAssets = [
     "/bootstrap.bundle.min.js",
@@ -32,9 +30,8 @@ const FrontendLayout = () => {
     "/aos.js",
     // "/main.js",
   ];
-  for (const value of jsAssets) {
-    useScript(`front-end/assets/js${value}`);
-  }
+
+  jsAssets?.map((value) => useScript(`/front-end/assets/js${value}`));
 
   return (
     <>

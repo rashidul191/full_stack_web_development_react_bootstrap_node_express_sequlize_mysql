@@ -23,8 +23,10 @@ export default function HeroSection() {
           {heroSlides?.map((item) => (
             <SwiperSlide key={item?.id}>
               <div
-                className="single-slider slider-height d-flex align-items-center"
-                style={{ backgroundImage: `url(${imageUrl(item?.image)})` }}
+                className="single-slider d-flex align-items-center"
+                style={{
+                  backgroundImage: `url(${imageUrl(item?.image)})`,
+                }}
               >
                 <div className="container">
                   <div className="row">

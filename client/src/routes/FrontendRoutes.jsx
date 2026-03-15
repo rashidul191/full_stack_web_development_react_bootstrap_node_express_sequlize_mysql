@@ -8,6 +8,7 @@ import TopMenuContent from "../view/FrontEnd/Pages/TopMenuContent";
 import SubMenuContent from "../view/FrontEnd/Pages/SubMenuContent";
 import Contact from "../view/FrontEnd/pages/ContactPage";
 import AboutPage from "../view/FrontEnd/pages/AboutPage";
+import ContentDetails from "../view/FrontEnd/pages/ContentDetails";
 
 export const FrontendRoutes = (
   <>
@@ -16,6 +17,8 @@ export const FrontendRoutes = (
 
       <Route path="/:slug" element={<TopMenuContent />} />
       <Route path="/:slug/:slug" element={<SubMenuContent />} />
+
+      <Route path="/more-details/:slug" element={<ContentDetails />} />
 
       <Route path="/about-us" element={<AboutPage />} />
       <Route path="/blog" element={<BlogPage />} />

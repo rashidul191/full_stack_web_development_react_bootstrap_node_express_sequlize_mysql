@@ -11252,12 +11252,8 @@ a:hover {
   border: 0;
 }
 
-.hero-btn {
-  padding: 30px 38px;
-}
-
-hero-btn {
-  padding: 30px 38px;
+.hero__btn .btn {
+  padding: 30px 38px !important;
 }
 
 @media (max-width: 575px) {
@@ -13694,13 +13690,13 @@ hero-btn {
 }
 
 .slider-height2 {
-  height: 450px;
+  height: 260px;
   background-size: cover;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-  .slider-height2 {
+  /* .slider-height2 {
     height: 350px;
-  }
+  } */
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   .slider-height2 {
@@ -13763,7 +13759,7 @@ hero-btn {
 }
 .slider-area .hero__caption h1,
 .slider-area .hero__caption .h1 {
-  font-size: 85px;
+  font-size: 50px;
   font-weight: 800;
   margin-bottom: 14px;
   color: #000000;
@@ -13774,13 +13770,13 @@ hero-btn {
 @media only screen and (min-width: 1200px) and (max-width: 1400px) {
   .slider-area .hero__caption h1,
   .slider-area .hero__caption .h1 {
-    font-size: 71px;
+    font-size: 50px;
   }
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .slider-area .hero__caption h1,
   .slider-area .hero__caption .h1 {
-    font-size: 60px;
+    font-size: 50px;
     line-height: 1.2;
   }
 }
@@ -13880,7 +13876,7 @@ hero-btn {
 .slider-area2 .hero-cap h2,
 .slider-area2 .hero-cap .h2 {
   color: #fff;
-  font-size: 60px;
+  font-size: 50px;
   font-weight: 700;
   text-transform: capitalize;
   line-height: 1;
@@ -14187,7 +14183,7 @@ hero-btn {
 }
 .count-down-area .single-counter span {
   color: #000000;
-  font-size: 60px;
+  font-size: 50px;
   font-weight: 400;
   font-family: "Roboto", sans-serif;
   line-height: 1;
@@ -19701,6 +19697,39 @@ textarea:focus-visible,
 /*# sourceMappingURL=style.css.map */
 
 /* Custom CSS Start */
+
+.single-slider {
+  width: 100%;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+  .single-slider {
+    min-height: 65vh;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .single-slider {
+    padding: 20px 0;
+    min-height: 60vh;
+    text-align: center;
+  }
+
+  .hero__caption h1 {
+    font-size: 28px;
+  }
+
+  .hero__caption p {
+    font-size: 14px;
+  }
+}
+
 .slider-area {
   position: relative;
 }
