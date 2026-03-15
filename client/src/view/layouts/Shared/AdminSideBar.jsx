@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { MdDashboard, MdSettings } from "react-icons/md";
-import { Globe2, Home, MessageCircleMore } from "lucide-react";
+import { Globe2, Home, MessageCircleMore, User2, Users } from "lucide-react";
 
 const navClass = ({ isActive }) =>
   `flex items-center gap-2 hover:bg-gray-600 hover:text-white ${
@@ -52,18 +52,12 @@ const AdminSidebar = () => {
           title: "Client Review",
           path: "/admin/review",
         },
-        {
-          title: "Storie",
-          path: "/admin/storie",
-        },
+
         {
           title: "Actvity",
           path: "/admin/activity",
         },
-        {
-          title: "Team",
-          path: "/admin/team",
-        },
+
         {
           title: "Client Brand",
           path: "/admin/client-brand",
@@ -74,6 +68,18 @@ const AdminSidebar = () => {
           path: "/admin/faq",
         },
       ],
+    },
+
+    {
+      title: "About Page",
+      path: "/admin/about-us",
+      icon: User2,
+    },
+
+    {
+      title: "Team",
+      path: "/admin/team",
+      icon: Users,
     },
     {
       title: "Blog",
@@ -88,6 +94,12 @@ const AdminSidebar = () => {
           path: "/admin/category",
         },
       ],
+    },
+
+    {
+      title: "Storie",
+      path: "/admin/storie",
+      icon: Globe2,
     },
     {
       title: "Contact Message",

@@ -4,6 +4,7 @@ import { useApiHook } from "../../../hook/customHook";
 import Loading from "../../layouts/Shared/Loading";
 import { imageUrl } from "../../../utility/imageUrl";
 import HtmlContent from "../../Components/HtmlContent";
+import BannerSection from "../../Components/BannerSection";
 
 const BlogDetails = () => {
   const { slug } = useParams();
@@ -13,48 +14,51 @@ const BlogDetails = () => {
   if (loading) return <Loading />;
 
   return (
-    <section className="blog_area single-post-area section-padding">
-      <div className="container">
-        <div className="row">
-          {/* ================= BLOG CONTENT ================= */}
-          <div className="col-lg-8 posts-list">
-            <div className="single-post">
-              <div className="feature-img">
-                <img
-                  className="img-fluid"
-                  src={imageUrl(blog?.image)}
-                  alt={blog?.title}
-                />
-              </div>
+    <>
+      <BannerSection></BannerSection>
 
-              <div className="blog_details">
-                <h2>{blog?.title}</h2>
+      <section className="blog_area single-post-area section-padding">
+        <div className="container">
+          <div className="row">
+            {/* ================= BLOG CONTENT ================= */}
+            <div className="col-lg-8 posts-list">
+              <div className="single-post">
+                <div className="feature-img">
+                  <img
+                    className="img-fluid"
+                    src={imageUrl(blog?.image)}
+                    alt={blog?.title}
+                  />
+                </div>
 
-                <ul className="blog-info-link mt-3 mb-4">
-                  <li>
-                    {/* <i className="fa fa-user"></i> */}
-                    By Admin
-                  </li>
+                <div className="blog_details">
+                  <h2>{blog?.title}</h2>
 
-                  <li>
-                    {/* <i className="fa fa-calendar"></i>{" "} */}
-                    {new Date(blog?.createdAt).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </li>
-                </ul>
+                  <ul className="blog-info-link mt-3 mb-4">
+                    <li>
+                      {/* <i className="fa fa-user"></i> */}
+                      By Admin
+                    </li>
 
-                {/* BLOG DESCRIPTION */}
-                <div>
-                  <HtmlContent content={blog?.description}> </HtmlContent>
+                    <li>
+                      {/* <i className="fa fa-calendar"></i>{" "} */}
+                      {new Date(blog?.createdAt).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </li>
+                  </ul>
+
+                  {/* BLOG DESCRIPTION */}
+                  <div>
+                    <HtmlContent content={blog?.description}> </HtmlContent>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* ================= NAVIGATION ================= */}
-            {/* <div className="navigation-top">
+              {/* ================= NAVIGATION ================= */}
+              {/* <div className="navigation-top">
               <div className="d-sm-flex justify-content-between text-center">
                 <p className="like-info">
                   <span className="align-middle">
@@ -88,8 +92,8 @@ const BlogDetails = () => {
               </div>
             </div> */}
 
-            {/* ================= AUTHOR ================= */}
-            {/* <div className="blog-author">
+              {/* ================= AUTHOR ================= */}
+              {/* <div className="blog-author">
               <div className="media align-items-center">
                 <img src="/assets/img/blog/author.png" alt="" />
                 <div className="media-body">
@@ -101,8 +105,8 @@ const BlogDetails = () => {
               </div>
             </div> */}
 
-            {/* ================= COMMENTS ================= */}
-            {/* <div className="comments-area">
+              {/* ================= COMMENTS ================= */}
+              {/* <div className="comments-area">
               <h4>Comments</h4>
 
               <div className="comment-list">
@@ -136,8 +140,8 @@ const BlogDetails = () => {
               </div>
             </div> */}
 
-            {/* ================= COMMENT FORM ================= */}
-            {/* <div className="comment-form">
+              {/* ================= COMMENT FORM ================= */}
+              {/* <div className="comment-form">
               <h4>Leave a Reply</h4>
 
               <form className="form-contact comment_form">
@@ -187,61 +191,62 @@ const BlogDetails = () => {
                 </div>
               </form>
             </div> */}
-          </div>
+            </div>
 
-          {/* ================= SIDEBAR ================= */}
-          <div className="col-lg-4">
-            <div className="blog_right_sidebar">
-              {/* SEARCH */}
-              <aside className="single_sidebar_widget search_widget">
-                <form>
-                  <div className="form-group">
-                    <div className="input-group mb-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search Keyword"
-                      />
+            {/* ================= SIDEBAR ================= */}
+            <div className="col-lg-4">
+              <div className="blog_right_sidebar">
+                {/* SEARCH */}
+                <aside className="single_sidebar_widget search_widget">
+                  <form>
+                    <div className="form-group">
+                      <div className="input-group mb-3">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Search Keyword"
+                        />
 
-                      <div className="input-group-append">
-                        <button className="btns" type="button">
-                          <i className="ti-search"></i>
-                        </button>
+                        <div className="input-group-append">
+                          <button className="btns" type="button">
+                            <i className="ti-search"></i>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <button
-                    className="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                    type="submit"
-                  >
-                    Search
-                  </button>
-                </form>
-              </aside>
+                    <button
+                      className="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                      type="submit"
+                    >
+                      Search
+                    </button>
+                  </form>
+                </aside>
 
-              {/* CATEGORY */}
-              <aside className="single_sidebar_widget post_category_widget">
-                <h4 className="widget_title">Category</h4>
+                {/* CATEGORY */}
+                <aside className="single_sidebar_widget post_category_widget">
+                  <h4 className="widget_title">Category</h4>
 
-                <ul className="list cat-list">
-                  {categories?.map((item) => {
-                    return (
-                      <li>
-                        <a href="javascript:void(0)" className="d-flex">
-                          <p>{item?.name}</p>
-                          <p>({item?.blogs?.length ?? 0})</p>
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </aside>
+                  <ul className="list cat-list">
+                    {categories?.map((item) => {
+                      return (
+                        <li>
+                          <a href="javascript:void(0)" className="d-flex">
+                            <p>{item?.name}</p>
+                            <p>({item?.blogs?.length ?? 0})</p>
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </aside>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

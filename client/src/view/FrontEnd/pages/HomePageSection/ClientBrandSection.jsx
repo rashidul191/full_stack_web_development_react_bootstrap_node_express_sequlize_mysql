@@ -8,7 +8,7 @@ export default function ClientBrandSection() {
   const { data: clientBrands } = useApiHook("/client-brand");
   return (
     <>
-      <div className="brand-area pb-140">
+      <div className="brand-area py-5">
         <div className="container">
           <div className="brand-active brand-border pb-40">
             <Swiper

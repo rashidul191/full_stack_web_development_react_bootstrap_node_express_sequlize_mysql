@@ -34,6 +34,7 @@ import ActivityIndex from "../view/Admin/Activity/ActivityIndex";
 import ActivityForm from "../view/Admin/Activity/ActivityForm";
 import StorieIndex from "../view/Admin/Storie/StorieIndex";
 import StorieForm from "../view/Admin/Storie/StorieForm";
+import AboutIndex from "../view/Admin/About/AboutIndex";
 
 export const AdminRoutes = (
   <>
@@ -126,6 +127,8 @@ export const AdminRoutes = (
         <Route path="" element={<ContactMessageIndex />} />
         <Route path="show/:id" element={<ContactMessageShow />} />
       </Route>
+
+      <Route path="about-us" element={<AboutIndex />} />
 
       <Route path="setting">
         <Route path="video-section" element={<VideoSectionForHomePage />} />
