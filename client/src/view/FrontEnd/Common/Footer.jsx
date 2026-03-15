@@ -51,7 +51,7 @@ const Footer = () => {
                   </div>
                 </div>
 
-                <div className="col-xl-2 col-lg-2 col-md-3 col-sm-5">
+                {/* <div className="col-xl-2 col-lg-2 col-md-3 col-sm-5">
                   <div className="single-footer-caption mb-50">
                     <div className="footer-tittle">
                       <h4>Location </h4>
@@ -74,7 +74,7 @@ const Footer = () => {
                       </ul>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="col-xl-2 col-lg-2 col-md-3 col-sm-5">
                   <div className="single-footer-caption mb-50">

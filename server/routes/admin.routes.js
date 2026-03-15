@@ -34,6 +34,7 @@ router.use("/activity", require("./admin/activity.route"));
 
 router.use("/content-manage", require("./admin/content-manage.route"));
 
+router.use("/price", require("./admin/price.route"));
 
 router.use("/business-setting", require("./admin/business.route"));
 

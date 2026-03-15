@@ -30,6 +30,8 @@ router.use("/faq", require("./web/faq.route"));
 
 router.use("/activity", require("./web/activity.route"));
 
+router.use("/price", require("./web/price.route"));
+
 router.use("/content-manage", require("./web/content-manage.route"));
 
 module.exports = router;

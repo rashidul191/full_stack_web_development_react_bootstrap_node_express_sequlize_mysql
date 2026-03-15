@@ -37,6 +37,8 @@ import StorieForm from "../view/Admin/Storie/StorieForm";
 import AboutIndex from "../view/Admin/About/AboutIndex";
 import ContentManageIndex from "../view/Admin/ContentManage/ContentManageIndex";
 import ContentManageForm from "../view/Admin/ContentManage/ContentManageForm";
+import PriceIndex from "../view/Admin/Price/PriceIndex";
+import PriceForm from "../view/Admin/Price/PriceForm";
 
 export const AdminRoutes = (
   <>
@@ -94,6 +96,13 @@ export const AdminRoutes = (
         <Route path="" element={<ActivityIndex />} />
         <Route path="create" element={<ActivityForm />} />
         <Route path="edit/:id" element={<ActivityForm />} />
+      </Route>
+     
+
+      <Route path="price">
+        <Route path="" element={<PriceIndex />} />
+        <Route path="create" element={<PriceForm />} />
+        <Route path="edit/:id" element={<PriceForm />} />
       </Route>
 
       <Route path="blog">

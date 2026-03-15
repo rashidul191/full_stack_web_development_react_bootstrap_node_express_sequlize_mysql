@@ -1,7 +1,5 @@
 const { Blog, Category } = require("../../models/index.js");
-
 const { sendSuccess, sendError } = require("../../utility/response.handle.js");
-
 const { indexService, showService } = require("../../utility/curd.service.js");
 module.exports.index = async (req, res) => {
   try {

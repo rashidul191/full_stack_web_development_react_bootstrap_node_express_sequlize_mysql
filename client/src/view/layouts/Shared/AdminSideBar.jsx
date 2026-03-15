@@ -1,7 +1,15 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { MdDashboard, MdSettings } from "react-icons/md";
-import { Globe2, Home, MessageCircleMore, PenIcon, User2, Users } from "lucide-react";
+import {
+  BadgeDollarSign,
+  Globe2,
+  Home,
+  MessageCircleMore,
+  PenIcon,
+  User2,
+  Users,
+} from "lucide-react";
 
 const navClass = ({ isActive }) =>
   `flex items-center gap-2 hover:bg-gray-600 hover:text-white ${
@@ -75,6 +83,11 @@ const AdminSidebar = () => {
       ],
     },
 
+    {
+      title: "Price",
+      path: "/admin/price",
+      icon: BadgeDollarSign,
+    },
     {
       title: "About Page",
       path: "/admin/about-us",

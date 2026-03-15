@@ -137,7 +137,7 @@ export default function BlogForm() {
             </div>
           </div>
 
-          {/* Forgot + Button */}
+          {/* Submit Button */}
           <div className="flex items-center justify-end text-sm">
             <SubmitBtn className="" value={`${id ? "Update" : "Publish"}`} />
           </div>

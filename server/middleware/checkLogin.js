@@ -18,7 +18,7 @@ const checkLogin = async (req, res, next) => {
       });
     }
 
-    jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
+    jwt.verify(token, process.env.JWT_SECRET_KEY || 'MERN%RT', function (err, decoded) {
       if (err) {
         return res.status(403).json({
           status: "fail",
