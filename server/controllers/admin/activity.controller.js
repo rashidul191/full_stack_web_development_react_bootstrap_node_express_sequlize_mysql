@@ -26,7 +26,6 @@ module.exports.create = async (req, res, next) => {
     sendSuccess(res, "Successfully create Activity!", result);
   } catch (error) {
     next(error);
-    console.log("create: ", error);
     sendError(res, "Can't create data!!", error);
   }
 };

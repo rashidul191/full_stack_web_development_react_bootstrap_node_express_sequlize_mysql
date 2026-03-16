@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import api from "../../../api/axios";
 import toast from "../../../utility/toast";
 import LabeledInput from "../../Components/LabeledInput";
 import SubmitBtn from "../../Components/SubmitBtn";
@@ -9,37 +8,36 @@ import { createFormDataWithFile } from "../../../utility/formDataHelper";
 import HeaderSection from "../../Components/HeaderSection";
 import { useImagePreview } from "../../../hook/customHook";
 import Loading from "../../layouts/Shared/Loading";
-import { useBusinessSettings } from "../../../utility/businessSetting";
-import LabeledTextarea from "../../Components/LabeledTextarea";
+import { useAdminBusinessSettings } from "../../../utility/businessSetting";
 import RichTextEditor from "../../Components/RichTextEditor";
 
 export default function AboutIndex() {
-  const { previewImage, handleImageChange } = useImagePreview(); // image preview custom hook
+  const { previewImage, handleImageChange } = useImagePreview();
+
   const {
     control,
     register,
     formState: { errors },
     handleSubmit,
-    reset, // react-hook-form reset
+    reset,
   } = useForm();
-  const { businessSetting, loading } = useBusinessSettings();
+
+  const { settings, loading, updateSettings } = useAdminBusinessSettings();
 
   useEffect(() => {
-    if (businessSetting) {
-      reset(businessSetting);
+    if (settings && Object.keys(settings).length > 0) {
+      reset(settings);
     }
-  }, [businessSetting, reset]);
+  }, [settings, reset]);
 
   const onSubmit = async (data) => {
-    const formData = createFormDataWithFile(data); // helper function with image manage
+    const formData = createFormDataWithFile(data);
+
     try {
-      const res = await api.post(`/admin/business-setting`, formData);
-      if (res?.data?.status === "success") {
-        // setbusiness(res?.data?.data);
-        toast.success(res.data.message);
-      }
+      await updateSettings(formData);
+      toast.success("About section updated successfully");
     } catch (error) {
-      toast.error(error.response?.data?.message);
+      toast.error(error?.response?.data?.message || "Update failed");
     }
   };
 
@@ -49,7 +47,8 @@ export default function AboutIndex() {
 
   return (
     <>
-      <HeaderSection title={"Video Section Content"}></HeaderSection>
+      <HeaderSection title={"About Section"} />
+
       <div className="shadow-lg p-4 rounded mt-5">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="w-full md:flex flex-wrap items-end">
@@ -58,10 +57,11 @@ export default function AboutIndex() {
                 className="w-12 h-12"
                 src={
                   previewImage.about_left_image ||
-                  imageUrl(businessSetting?.about_left_image)
+                  imageUrl(settings?.about_left_image)
                 }
                 alt=""
               />
+
               <LabeledInput
                 type="file"
                 label="Image"
@@ -76,7 +76,6 @@ export default function AboutIndex() {
               className="w-full md:w-1/2 p-1"
               label="Title"
               name="about_title"
-              value={businessSetting?.about_title}
               register={register}
               errors={errors}
             />
@@ -85,12 +84,12 @@ export default function AboutIndex() {
               label="Content"
               name="about_content"
               control={control}
-              value={businessSetting?.about_content}
               errors={errors}
-            ></RichTextEditor>
+            />
           </div>
+
           <div className="flex items-center justify-end text-sm">
-            <SubmitBtn className="" value="Submit" />
+            <SubmitBtn value="Submit" />
           </div>
         </form>
       </div>

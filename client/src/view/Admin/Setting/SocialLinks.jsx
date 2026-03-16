@@ -1,45 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import api from "../../../api/axios";
 import toast from "../../../utility/toast";
 import LabeledInput from "../../Components/LabeledInput";
 import SubmitBtn from "../../Components/SubmitBtn";
-import { getBusinessSettings } from "../../../utility/businessSetting";
 import { createFormDataWithFile } from "../../../utility/formDataHelper";
 import HeaderSection from "../../Components/HeaderSection";
 import Loading from "../../layouts/Shared/Loading";
+import { useAdminBusinessSettings } from "../../../utility/businessSetting";
 
 export default function SocialLinks() {
-  const [loading, setLoading] = useState(true);
-  const [businessSetting, setBusinessSetting] = useState({});
   const {
     register,
     formState: { errors },
     handleSubmit,
-    reset, // react-hook-form reset
+    reset,
   } = useForm();
 
+  const { settings, loading, updateSettings } = useAdminBusinessSettings();
+
+  // settings load হলে form reset
   useEffect(() => {
-    const fetchSettings = async () => {
-      setLoading(true);
-      const settings = await getBusinessSettings();
-      setBusinessSetting(settings);
-      reset(settings); // form field এ value সেট করা
-      setLoading(false);
-    };
-    fetchSettings();
-  }, []);
+    if (settings && Object.keys(settings).length > 0) {
+      reset(settings);
+    }
+  }, [settings, reset]);
 
   const onSubmit = async (data) => {
-    const formData = createFormDataWithFile(data); // helper function with image manage
+    const formData = createFormDataWithFile(data);
+
     try {
-      const res = await api.post(`/admin/business-setting`, formData);
-      if (res?.data?.status === "success") {
-        // setBusinessSetting(res?.data?.data);
-        toast.success(res.data.message);
-      }
+      await updateSettings(formData);
+      toast.success("Social links updated successfully");
     } catch (error) {
-      toast.error(error.response?.data?.message);
+      toast.error(error?.response?.data?.message || "Update failed");
     }
   };
 
@@ -49,14 +42,14 @@ export default function SocialLinks() {
 
   return (
     <>
-      <HeaderSection title={"Social Links"}></HeaderSection>
+      <HeaderSection title={"Social Links"} />
+
       <div className="shadow-md p-4 rounded mt-5">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="w-full md:flex flex-wrap items-end">
             <LabeledInput
               className="w-full md:w-1/2 p-1"
               name="fb_link"
-              value={businessSetting?.fb_link}
               register={register}
               errors={errors}
             />
@@ -64,7 +57,6 @@ export default function SocialLinks() {
             <LabeledInput
               className="w-full md:w-1/2 p-1"
               name="youtube_link"
-              value={businessSetting?.youtube_link}
               register={register}
               errors={errors}
             />
@@ -72,27 +64,27 @@ export default function SocialLinks() {
             <LabeledInput
               className="w-full md:w-1/2 p-1"
               name="instagram_link"
-              value={businessSetting?.instagram_link}
               register={register}
               errors={errors}
             />
+
             <LabeledInput
               className="w-full md:w-1/2 p-1"
               name="twitter_link"
-              value={businessSetting?.twitter_link}
               register={register}
               errors={errors}
             />
+
             <LabeledInput
               className="w-full md:w-1/2 p-1"
               name="linkedin_link"
-              value={businessSetting?.linkedin_link}
               register={register}
               errors={errors}
             />
           </div>
+
           <div className="flex items-center justify-end text-sm">
-            <SubmitBtn className="" value="Submit" />
+            <SubmitBtn value="Submit" />
           </div>
         </form>
       </div>

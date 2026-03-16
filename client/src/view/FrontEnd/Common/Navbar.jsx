@@ -14,7 +14,7 @@ const Navbar = () => {
   const { businessSetting } = useBusinessSettings();
   // const userInfo = useContext(AuthContext);
   // const email = userInfo?.auth?.auth?.email;
-  const { data: menus } = useApiHook("/admin/menu");
+  const { data: menus } = useApiHook("/menu");
   const topMenus = menus
     ?.sort((a, b) => a.serial - b.serial)
     ?.filter(

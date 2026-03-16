@@ -4,13 +4,14 @@ const { sendSuccess, sendError } = require("../../utility/response.handle.js");
 const ImageFile = require("../../lib/ImageFile.js");
 const imageHandler = new ImageFile("business-settings");
 
-module.exports.index = async (req, res) => {
+module.exports.index = async (req, res, next) => {
   try {
     const data = await BusinessSetting.findAll({});
 
     sendSuccess(res, "Find data successfully", data);
   } catch (error) {
-    sendError(res, "Can't find data in the database!!", error);
+    next(error);
+    // sendError(res, "Can't find data in the database!!", error);
   }
 };
 
@@ -57,6 +58,6 @@ module.exports.update = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next(error);
-    sendError(res, "Can't Update data!!", error);
+    // sendError(res, "Can't Update data!!", error);
   }
 };

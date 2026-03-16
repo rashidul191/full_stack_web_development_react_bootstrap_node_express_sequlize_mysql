@@ -49,9 +49,9 @@ export const AdminRoutes = (
     <Route
       path="/admin"
       element={
-        // <PrivateRoute role={ROLES.Admin}>
-        <AdminLayout />
-        // </PrivateRoute>
+        <PrivateRoute role={ROLES.Admin}>
+          <AdminLayout />
+        </PrivateRoute>
       }
     >
       <Route path="dashboard" element={<AdminDashboard></AdminDashboard>} />
@@ -97,7 +97,6 @@ export const AdminRoutes = (
         <Route path="create" element={<ActivityForm />} />
         <Route path="edit/:id" element={<ActivityForm />} />
       </Route>
-     
 
       <Route path="price">
         <Route path="" element={<PriceIndex />} />

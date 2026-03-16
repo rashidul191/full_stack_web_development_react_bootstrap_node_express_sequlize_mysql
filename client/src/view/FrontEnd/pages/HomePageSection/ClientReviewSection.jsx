@@ -6,7 +6,7 @@ import { imageUrl } from "../../../../utility/imageUrl";
 import HtmlContent from "../../../Components/HtmlContent";
 
 export default function ClientReviewSection() {
-  const { data: reviews } = useApiHook("/admin/review");
+  const { data: reviews } = useApiHook("/review");
   return (
     <>
       <div

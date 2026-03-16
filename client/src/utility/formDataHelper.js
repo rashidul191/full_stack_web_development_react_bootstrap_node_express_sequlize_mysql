@@ -12,9 +12,10 @@ export const createFormDataWithFile = (data) => {
       value.forEach((item) => formData.append(`${key}[]`, item));
     } else {
       // empty string avoid
-      if (value !== "" && value !== undefined && value !== null) {
-        formData.append(key, value);
-      }
+      formData.append(key, value ?? "");
+      // if (value !== "" && value !== undefined && value !== null) {
+      //   formData.append(key, value);
+      // }
     }
   });
 

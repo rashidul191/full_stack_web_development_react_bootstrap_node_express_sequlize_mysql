@@ -1,6 +1,8 @@
 import React from "react";
 import defaultAvatar from "../../../../src/assets/avatar.png";
 import { getRoleName } from "../../../enum/Roles";
+import { NavLink } from "react-router-dom";
+import { Globe2 } from "lucide-react";
 
 export default function Navbar({ userInfo, toggleDrawer }) {
   const { auth, logoutUser } = userInfo;
@@ -33,7 +35,11 @@ export default function Navbar({ userInfo, toggleDrawer }) {
         </label>
         {/* Right side */}
         <div className="flex w-full justify-end items-center">
-          <div className="dropdown dropdown-end">
+          <NavLink to={"/"} >
+            <Globe2></Globe2>
+          </NavLink>
+
+          <div className="dropdown dropdown-end mx-3">
             {/* Profile Button */}
             <div
               tabIndex={0}

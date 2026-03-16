@@ -5,5 +5,5 @@ const uploadFile = require("../../middleware/upload.middleware");
 const upload = uploadFile("business-settings");
 
 router.get("/", businessController.index); // index
-router.post("/", upload.any(), businessController.update);
+router.put("/", upload.any(), businessController.update);
 module.exports = router;
